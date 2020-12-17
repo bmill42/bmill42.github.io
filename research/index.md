@@ -13,6 +13,10 @@ title: Research
 
 “Language, Gesture, Style: Adorno’s Theory of Musical Reproduction between Musicology and Art History.” In _Musik, Schrift, Differenz_, forthcoming in the series, “Zu einer Theorie der musikalischen Schrift.” Julia Freund, Nikolaus Urbanek, and Matteo Nanni, eds. Wilhelm Fink-Verlag, Paderborn, forthcoming.
 
+### Dissertation
+
+"Enminded, Embodied, Embedded: The Concept of Musical Style from Leonard Meyer to Machine Learning." Yale University, 2020.
+
 ### Selected Presentations
 
 “Open Source Creativity: Google as Computer Music Institution.” Society for American Music Annual Conference. Tacoma, WA (online due to COVID-19), 2021.
