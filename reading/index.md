@@ -34,4 +34,4 @@ Under construction warning: a lot of the citations are messy and incomplete at t
 
 - Stefan Helmreich, _Silicon Second Nature_
 - Eric Drott, “Why the Next Song Matters: Streaming, Recommendation, Scarcity”, and "Music as a Technology of Surveillance"
-- Alex Rehding, [Can the history of Theory be Decentered?”](https://historyofmusictheory.wordpress.com/2020/04/03/can-the-history-of-theory-be-decentered-part-i-prequel-five-classics/)
+- Alex Rehding, [Can the History of Theory be Decentered?”](https://historyofmusictheory.wordpress.com/2020/04/03/can-the-history-of-theory-be-decentered-part-i-prequel-five-classics/)
