@@ -3,7 +3,7 @@ body { margin: 60px 200px; width: 50%; }
 a { text-decoration: none; color: #999; }
 a:hover { color: #950; }
 
-p, ul {font-family: 'Arial';}
+p, ul {font-family: 'Verdana', 'Arial', 'Sans-Serif';}
 p, ul { font-size: 1em; line-height: 1.4em; color: #333; }
 li.emph {font-size: 1.5em;}
 
