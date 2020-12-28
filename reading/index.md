@@ -9,11 +9,17 @@ Since my employment isn't tied to research output these days, my reading has bee
 
 Under construction warning: a lot of the citations are messy and incomplete at the moment.
 
+#### Week of 12/21
+- Lauren M. E. Goodlad, “A Study in Distant Reading: Genre and the Longue Durée in the Age of AI,” _MLQ_ 81/4 (2020)
+- Lindsay Poitier, [“Ethnographies of Datasets: Teaching Critical Data Analysis through R Notebooks”](https://jitp.commons.gc.cuny.edu/ethnographies-of-datasets-teaching-critical-data-analysis-through-r-notebooks/)
+- Short pieces by Peter Szendy, Wendy Hui Kyong Chun, N. Katherine Hayles, in [_Critical Inquiry_ 47/S2, "Posts from the Pandemic" (2021)](https://www.journals.uchicago.edu/toc/ci/2021/47/S2)
+
 #### Week of 12/14
 
 - Hortense Spillers, [“Fly Me To The Moon (from the ground)”](http://www.boundary2.org/2020/12/hortense-j-spillers-fly-me-to-the-moon-from-the-ground/)
 - Leonard Meyer, “Universalism and Relativism in the Study of Ethnic Music”
 - Peter Gordon, [“What is Intellectual History”](https://ces.fas.harvard.edu/uploads/files/Reports-Articles/What-is-Intellectual-History-Essay-by-Peter-Gordon.pdf)
+- Gary Tomlinson, “Posthumanism,” in the _Oxford Handbook of Western Music and Philosophy_
 
 #### Week of 12/07
 
