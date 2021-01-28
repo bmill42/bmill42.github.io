@@ -5,9 +5,10 @@ title: Reading
 
 ### What I've Been Reading
 
-Since my employment isn't tied to research output these days, my reading has been particularly unfocused (more professionally: "wide-ranging"). I've generally done a poor job of keeping track of this kind of thing, so I'm experimenting with maintaining a list and making it public. The list is focused on academic readings, but I'll also include non-academic stuff that's either related to my work, particularly good, or of interest for whatever reason.
+This is a place to keep track of readings (and hopefully motivate me to finish the books I start). Citations are a bit of a mess.
 
-Under construction warning: a lot of the citations are messy and incomplete at the moment.
+#### Week of 01/18
+- James Turner, _Philology_ (2014)
 
 #### Week of 12/21
 - Lauren M. E. Goodlad, “A Study in Distant Reading: Genre and the Longue Durée in the Age of AI,” _MLQ_ 81/4 (2020)
