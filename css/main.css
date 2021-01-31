@@ -38,7 +38,7 @@ table.dataframe {
 }
 
 thead, th, td, tr {
-  padding: 4px;
+  padding: 3px;
   text-align: center;
   letter-spacing: 1px;
   border: 1px solid #ACACAC;
