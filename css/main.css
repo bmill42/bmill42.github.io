@@ -24,6 +24,11 @@ img {
 pre.highlight {
   padding: 15px 15px 15px 15px; background: #F1F1F1;
   white-space : pre-wrap !important;
+  font-size: 0.9em;
+}
+
+code {
+  background: #F1F1F1;
 }
 
 table.dataframe {
