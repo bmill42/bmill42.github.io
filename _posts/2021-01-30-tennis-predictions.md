@@ -4,9 +4,9 @@ title: "Predicting Tennis Match Outcomes, part 1"
 date: 2021-01-30
 ---
 
-_[Find the code for this post on [github](https://github.com/bmill42/Tennis-Analytics)]_
+_[a jupyter notebook for this post is available on [github](https://github.com/bmill42/Tennis-Analytics)]_
 
-I'm not much of a gambler, so I was fortunate on my first trip to Las Vegas last year to be traveling with a friend who really know the ropes (e.g. among other things, where to find $8 steaks at 2 in the morning). I came away from the experience, as you might expect, with less money in my bank account, but the losses were  surprisingly minimal thanks to my favorite of the various degenerate pastimes to which I was introduced: betting on tennis matches.
+I'm not much of a gambler, so I was fortunate on my first trip to Las Vegas last year to be traveling with a friend who really know the ropes (including, among other things, where to find $8 steaks at 2 in the morning). I came away from the experience, as you might expect, with less money in my bank account, but the losses were  surprisingly minimal thanks to my favorite of the various degenerate pastimes to which I was introduced: betting on tennis matches.
 
 We were in Vegas during the clay-court leadup to the French Open, betting mainly on early-round matches in Rome; my proudest moment was picking then-seventeen-year-old Jannik Sinner's upset over Steve Johnson, but we also did well overall, both when it came to picking individual matches and in "system" betting, where out of a group of bets a certain number have to win to pay out. I don't know the exact numbers, but we came out on top in the end.
 
@@ -100,7 +100,7 @@ cols = [
 ]
 ```
 
-The main basic feature that isn't included in the main dataset is player date-of-birth, which we'll grab from Jeff Sackmann's dataset. At the moment, I'm merging `DOB` into the match dataset later, during training.
+The most important feature that isn't included in the main dataset is player date-of-birth, which we'll grab from Jeff Sackmann's dataset. At the moment, I'm merging `DOB` into the match dataset later, during training.
 
 
 ```python
@@ -1273,14 +1273,6 @@ I'm using 8-fold cross validation here and simply measuring predictive accuracy,
 
 
 ```python
-'''rf_model = GradientBoostingClassifier(learning_rate=0.05,
-                                   n_estimators=1000,
-                                   #validation_fraction=0.1,
-                                   #n_iter_no_change=3,
-                                   random_state=0,
-                                  )'''
-
-
 log_model = LogisticRegression(max_iter=100,
                            penalty='l2',
                            #l1_ratio=0.9,
@@ -1300,10 +1292,6 @@ rf_model = RandomForestClassifier(n_estimators=100,
 log_score = cross_val_score(log_model, X_t, y, cv=8)
 rf_score = cross_val_score(rf_model, X_t, y, cv=8)
 ```
-
-    Logistic Regression Accuracy: 0.6580618022448217
-    Random Forest Accuracy: 0.6649989741800371
-
 
 Before we peek at the scores themselves, let's take a look at how the models treat the various features. Because the training data has all been scaled, the coefficients for the logistic regression are relatively easy to interpret – the coefficients all measure the effect on the final prediction of proportional changes in the respective features.
 
@@ -1593,19 +1581,11 @@ def upset_stats(X_valid, y_valid, X_columns, model):
 
     X_v_df['predicted'] = pd.Series(predicts)
 
-    '''upset_1 = (X_v_df['rank_diff'] > 0) & (X_v_df['win'] == 1)
-    upset_2 = (X_v_df['rank_diff'] < 0) & (X_v_df['win'] == 0)
-    upset = upset_1 | upset_2'''
-
     upset_1 = (X_v_df['rank_ratio'] > 1) & (X_v_df['win'] == 1)
     upset_2 = (X_v_df['rank_ratio'] < 1) & (X_v_df['win'] == 0)
     upset = upset_1 | upset_2
 
     predicted_upset_cor = upset & correct
-
-    '''pred_upset_1 = (X_v_df['rank_diff'] > 0) & (X_v_df['predicted'] == 1)
-    pred_upset_2 = (X_v_df['rank_diff'] < 0) & (X_v_df['predicted'] == 0)
-    pred_upset = pred_upset_1 | pred_upset_2'''
 
     pred_upset_1 = (X_v_df['rank_ratio'] > 1) & (X_v_df['predicted'] == 1)
     pred_upset_2 = (X_v_df['rank_ratio'] < 1) & (X_v_df['predicted'] == 0)

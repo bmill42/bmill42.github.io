@@ -5,8 +5,6 @@ title: Reading
 
 ### What I've Been Reading
 
-This is a place to keep track of readings (and hopefully motivate me to finish the books I start). Citations are a bit of a mess.
-
 #### Week of 01/18
 - James Turner, _Philology_ (2014)
 
