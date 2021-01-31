@@ -20,7 +20,7 @@ Some interesting approaches involve modeling each match point-by-point, or model
 
 Since this is partly an educational project for me to work on some data science skills, I'll spend a bit more time narrating my process than would normally be necessary, but you can always skip ahead to the important stuff. When I first started, I took a naive pass at building a model without looking at the specifics of other similar approaches, just to see if my intuitions on the basic structure of the problem and the kind of features that might be useful were at least reasonable. They were, more or less, but as I continued tweaking and feature engineering I tried to make use of insights gained from the various papers I'd read, and the model presented here reflects the current state of things. As I go along, I'll flag things that I'm continuing to tune or that I'm planning to work on for a future post.
 
-## Setup
+### Setup
 
 
 ```python
@@ -138,7 +138,7 @@ data['winner_ht'].fillna(data['winner_ht'].median(), inplace=True)
 data['loser_ht'].fillna(data['loser_ht'].median(), inplace=True)
 ```
 
-## Baseline
+### Baseline
 
 The ranking system is its own form of predictive model that gets us quite a bit past 50/50 when it comes to predictions. How often does the better-ranked player (a term I use to avoid confusion when comparing rankings and proportions, since colloquially a "higher" ranking is a smaller number) win the match?
 
@@ -515,7 +515,7 @@ Out of the matches that actually were upsets, the BCM got about 34% of them. In 
 
 Now, it's worth returning to the paper by Gao and Kowalczyk, which claimed to achieve 83% accuracy with a random forest model (they came up with BCM and logistic regression figures similar to those reported elsewhere). While I'd like to hold out hope that that number is real, it's just too good to be true; there's no way they actually beat the bookmakers by more than 12 points. They don't provide enough technical information to replicate their study very closely, nor do they break their results down by upsets or other features commonly seen in the literature, though they do report confidence scores for the various models. I've tried building similar models with nearly the same set of features and haven't gotten close to 83% accuracy. Overall, I think it's most likely that this was a result of some kind of data leakage, or maybe a simple coding error (the paper is just a preprint, so there's been no professional confirmation or endorsement of its results).
 
-## Initial Feature Engineering
+### Initial Feature Engineering
 
 There are a couple steps involved in getting the ATP match data into a form that can be used to train a model. The columns are labeled and ordered by `winner` and `loser`, which is obviously information we'll need to hide since that's precisely what we're hoping to predict. The solution to that issue is discussed below. First, and more simply, we need to get the raw match stats into a more useful form; it's not very helpful to know how many first serve points a player won if we don't know how their first serve percentage. Here, I put together some of the basic stats that most tennis fans are familiar with: first serve percentage, percentage of points won when the first serve is in, and percentage of points won on second serve.
 
@@ -555,7 +555,7 @@ data['date_parsed'] += data.apply(lambda row: datetime.timedelta(0,row.match_num
 data['unique_id'] = data['tourney_id'].astype(str) + "%" + data['match_num'].astype(str)
 ```
 
-## Exploratory Analysis
+### Exploratory Analysis
 
 There's plenty we could do with the data in its present form; since this is a long post, I won't do much before getting to the model itself, so there's a lot more that could be done, especially in terms of looking for trends over time. Let's take a look at some serving stats for now.
 
@@ -663,7 +663,7 @@ plt.show()
 
 As I've mentioned, there's much more that could be done, particularly around upsets (do more upsets happen in particular rounds? In matches involving lefties? Can we see evidence of hot streaks or bad game style matchups?). But for now, let's get a basic model running.
 
-## Preparing for Training
+### Preparing for Training
 
 The first step in preparing the data for modeling is to remove the leakage that comes from the winner-first order of the players. My strategy here is to make two copies of the data and swap the players in one copy, so that I end up with two versions of each match, with labels like `winner_rank` and `loser_rank` replaced with `p_rank` and `o_rank` (for "player" and "opponent"). A new `win` feature marks whether `p` or `o` wins.
 
@@ -760,7 +760,7 @@ total_data = total_data.set_index('date_parsed').sort_index()
 player_names = list(set(data['winner_name'].values).union(set(data['loser_name'])))
 ```
 
-## Training
+### Training
 
 To train a model, we obviously can't use any data that isn't known prior to the match; instead, we need to collect various stats for each of the players in their previous matches. This requires one of those things you're not supposed to do in pandas – iteration. \*cue scary music\*. The basic idea is to go through each match in the dataset and, for each player, grab all of the matches from the past year. Iteration is essentially unavoidable when the data is structured as it is; there's no easy way around doing a new round of data processing for each match in the dataset, since we need to select only the matches featuring the current players each time. (Though a different initial organization could make things faster, as I discuss briefly below)
 
@@ -1082,7 +1082,7 @@ training_data.to_csv("./atp_data/atp_training_2000-2015_exp_365.csv")
 training_data = pd.read_csv("./atp_data/atp_training_2000-2015_exp_120.csv")
 ```
 
-## Preprocessing and more feature engineering
+### Preprocessing and more feature engineering
 
 From the full training set, we need to filter out half of the matches, randomly choosing between the permutation where `p` wins and the one where `o` wins.
 
