@@ -16,6 +16,35 @@ li.emph {font-size: 1.5em; font-weight: 500;}
   .emph { margin-bottom: 20px; }
 }
 
+img {
+  max-width: 100%;
+  margin: 10px 0 10px 0;
+}
+
+pre.highlight {
+  padding: 15px 15px 15px 15px; background: #F1F1F1;
+  white-space : pre-wrap !important;
+}
+
+table.dataframe {
+  width: 100%;
+  margin: 30px 0px 30px 0px;
+  border-collapse: collapse;
+  border: 1px solid #ACACAC;
+  text-align: center;
+  font-family: 'Rubik', 'Verdana', 'Arial', 'Sans-Serif';
+  font-weight: lighter;
+  font-size: 0.9em;
+}
+
+thead, th, td, tr {
+  padding: 4px;
+  text-align: center;
+  letter-spacing: 1px;
+  border: 1px solid #ACACAC;
+}
+
+
 h1, h2, h3, h4 { font-family: 'Rubik','Verdana', 'Arial', 'Sans-Serif'; font-weight: 400; }
 h1 { font-size: 2em;  }
 h2 { font-size: 1.5em; }

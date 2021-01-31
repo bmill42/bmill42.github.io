@@ -1,3 +1,6 @@
 name: Brian Miller
 markdown: kramdown
+highlighter: rouge
+kramdown:
+  input: GFM
 permalink: /blog/:year/:month/:day/:title
