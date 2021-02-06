@@ -5,7 +5,7 @@ title: Reading
 
 ### What I've Been Reading
 
-####Week of 2/1
+#### Week of 2/1
 - Theodor Adorno, excerpts from _Current of Music_
 
 #### Week of 01/18
