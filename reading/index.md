@@ -5,6 +5,13 @@ title: Reading
 
 ### What I've Been Reading
 
+#### Week of 3/15
+- Nick Seaver, “Everything Lies in a Space: Cultural Data and Spatial Reality,” _Journal of the Royal Anthropological Institute_, [https://doi.org/10.1111/1467-9655.13479](https://doi.org/10.1111/1467-9655.13479).
+
+#### Week of 3/8
+- Rachel Mundy, _Animal Musicalities_. Middletown, Connecticut: Wesleyan University Press, 2018.
+- Georgina Born, “On Nonhuman Sound—Sound as Relation.” In _Sound Objects_, edited by James A. Steintrager and Rey Chow, 185–211. Durham: Duke University Press, 2019.
+
 #### Week of 2/1
 - Theodor Adorno, excerpts from _Current of Music_
 
