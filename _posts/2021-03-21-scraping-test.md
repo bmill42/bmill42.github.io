@@ -4,6 +4,8 @@ title: "Web Scraping and Task Scheduling with BeautifulSoup and Airflow"
 date: 2021-03-21
 ---
 
+_[both the scraping and the DAG script are available on [github](https://github.com/bmill42/Tennis-Analytics)]_
+
 Unlike the last post, which involved doing some exploration and prediction with a statis dataset, this post is more focused on the data engineering end of the data science stack. The goal here is to set up a basic web-scraping script to get tennis scores from ESPN and then schedule it to run daily using Airflow, all in Python. It's relatively brief, establishing a very simple pipeline that I can build on in the future.
 
 First, we set up the scraper using the BeautifulSoup library, which provides a wonderfully user-friendly means of navigating HTML or XML structures and extracting the relevant information.
