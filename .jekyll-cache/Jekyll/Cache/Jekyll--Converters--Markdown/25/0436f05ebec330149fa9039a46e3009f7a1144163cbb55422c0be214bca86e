@@ -1,0 +1,225 @@
+I"F}<p>Unlike the last post, which involved doing some exploration and prediction with a statis dataset, this post is more focused on the data engineering end of the data science stack. The goal here is to set up a basic web-scraping script to get tennis scores from ESPN and then schedule it to run daily using Airflow, all in Python. It’s relatively brief, establishing a very simple pipeline that I can build on in the future.</p>
+
+<p>First, we set up the scraper using the BeautifulSoup library, which provides a wonderfully user-friendly means of navigating HTML or XML structures and extracting the relevant information.</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">from</span> <span class="nn">bs4</span> <span class="kn">import</span> <span class="n">BeautifulSoup</span>
+<span class="kn">import</span> <span class="nn">re</span>
+<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="n">pd</span>
+<span class="kn">from</span> <span class="nn">pathlib</span> <span class="kn">import</span> <span class="n">Path</span>
+<span class="kn">import</span> <span class="nn">urllib.request</span>
+<span class="kn">import</span> <span class="nn">lxml</span>
+<span class="kn">import</span> <span class="nn">datetime</span> <span class="k">as</span> <span class="n">dt</span>
+<span class="kn">import</span> <span class="nn">sys</span>
+<span class="kn">from</span> <span class="nn">time</span> <span class="kn">import</span> <span class="n">sleep</span>
+
+<span class="n">data_file</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="s">"/Users/brian_miller/Data_Science/tennis_pipeline/match_data.xlsx"</span><span class="p">)</span>
+
+<span class="k">if</span> <span class="n">data_file</span><span class="p">.</span><span class="n">is_file</span><span class="p">():</span>
+    <span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="p">.</span><span class="n">read_excel</span><span class="p">(</span><span class="n">data_file</span><span class="p">).</span><span class="n">drop</span><span class="p">(</span><span class="n">columns</span><span class="o">=</span><span class="p">[</span><span class="s">"Unnamed: 0"</span><span class="p">])</span>
+<span class="k">else</span><span class="p">:</span>
+    <span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="p">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">columns</span><span class="o">=</span><span class="p">[</span><span class="s">'date'</span><span class="p">,</span><span class="s">'winner'</span><span class="p">,</span><span class="s">'w_seed'</span><span class="p">,</span><span class="s">'loser'</span><span class="p">,</span><span class="s">'l_seed'</span><span class="p">,</span><span class="s">'score'</span><span class="p">])</span>
+</code></pre></div></div>
+
+<p>For now, I’m just storing data in a spreadsheet, so to get started all that’s needed is to check whether the spreadsheet already exists and either import it or set up an empty dataframe.</p>
+
+<p>I’m scraping from ESPN’s daily scoreboard, which can be accessed by passing the relevant date to the appropriate URL. Making a single daily scrape of tennis scores can be tricky since tournaments take place all around the world, in very different timezones. To deal with this, one could either do some more sophisticated scheduling based on specific tournmanent locations, daily match schedules, and so on, or one could simply wait to scrape until the following day (or even later) to make sure all matches are completed. For this simple script, I’m taking the latter approach and using yesterday’s date for each scraping attempt. There’s a bit of extra code to make sure the date that comes from <code class="highlighter-rouge">datetime</code> is zero-padded:</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">yest</span> <span class="o">=</span> <span class="n">dt</span><span class="p">.</span><span class="n">date</span><span class="p">.</span><span class="n">today</span><span class="p">()</span> <span class="o">-</span> <span class="n">dt</span><span class="p">.</span><span class="n">timedelta</span><span class="p">(</span><span class="n">days</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+
+<span class="n">yest_year</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">yest</span><span class="p">.</span><span class="n">year</span><span class="p">)</span>
+<span class="n">yest_month</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">yest</span><span class="p">.</span><span class="n">month</span><span class="p">)</span>
+<span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">yest_month</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+    <span class="n">yest_month</span> <span class="o">=</span> <span class="s">'0'</span> <span class="o">+</span> <span class="n">yest_month</span>
+<span class="n">yest_day</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">yest</span><span class="p">.</span><span class="n">day</span><span class="p">)</span>
+<span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">yest_day</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+    <span class="n">yest_day</span> <span class="o">=</span> <span class="s">'0'</span> <span class="o">+</span> <span class="n">yest_day</span>
+
+<span class="n">yest_string</span> <span class="o">=</span> <span class="n">yest_year</span> <span class="o">+</span> <span class="n">yest_month</span> <span class="o">+</span> <span class="n">yest_day</span>
+</code></pre></div></div>
+
+<p>For testing purposes, the script can optionally take an argument on the command line that will be used in place of the actual date.</p>
+
+<p>Then, it’s straightforward to grab the HTML from the URL and parse it with BeautifulSoup (though a number of issues can come up here, discussed below).</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">sys</span><span class="p">.</span><span class="n">argv</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">:</span>
+    <span class="n">yest_string</span> <span class="o">=</span> <span class="n">sys</span><span class="p">.</span><span class="n">argv</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+
+<span class="n">link</span> <span class="o">=</span> <span class="s">"http://m.espn.com/general/tennis/dailyresults?date="</span> <span class="o">+</span> <span class="n">yest_string</span>
+<span class="n">f</span> <span class="o">=</span> <span class="n">urllib</span><span class="p">.</span><span class="n">request</span><span class="p">.</span><span class="n">urlopen</span><span class="p">(</span><span class="n">link</span><span class="p">)</span>
+
+<span class="n">soup</span> <span class="o">=</span> <span class="n">BeautifulSoup</span><span class="p">(</span><span class="n">f</span><span class="p">,</span> <span class="s">'lxml'</span><span class="p">)</span>
+</code></pre></div></div>
+
+<p>Web scraping can be finnicky; I’ve chosen ESPN’s scoreboard because it provides fairly clean HTML, but occasionally the page loads without displaying any matches. For now, when that happens the script just reloads the page after five seconds and tries again, making up to five attempts before giving up. While I’m using the mobile link, the URL request protocol I’m using currently gets the desktop version. That’s an artifact of some earlier testing, but for now I’m not going to break what’s working. There are other ways to go about this to try to ensure a more consistent response (like adding headers to the URL request to imitate a particular web browser, or using other scraping tools like Selenium), but since this is just a demonstration I’ve kept it simple. Eventually, the goal will be to scrape more detailed stats from each match, but that will involve using separate URLs to get the full box score for each match, or possibly even finding a different site to scrape from altogether.</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">tries</span> <span class="o">=</span> <span class="mi">1</span>
+<span class="k">while</span> <span class="nb">len</span><span class="p">(</span><span class="n">soup</span><span class="p">.</span><span class="n">find_all</span><span class="p">(</span><span class="n">string</span><span class="o">=</span><span class="n">re</span><span class="p">.</span><span class="nb">compile</span><span class="p">(</span><span class="s">"No Matches Scheduled"</span><span class="p">,</span> <span class="n">re</span><span class="p">.</span><span class="n">I</span><span class="p">)))</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+    <span class="k">if</span> <span class="n">tries</span> <span class="o">&lt;</span> <span class="mi">6</span><span class="p">:</span>
+
+        <span class="k">print</span><span class="p">(</span><span class="s">'no matches, trying again'</span><span class="p">)</span>
+
+        <span class="n">sleep</span><span class="p">(</span><span class="mi">5</span><span class="p">)</span>
+
+        <span class="n">link</span> <span class="o">=</span> <span class="s">"http://m.espn.com/general/tennis/dailyresults?date="</span> <span class="o">+</span> <span class="n">yest_string</span>
+        <span class="n">f</span> <span class="o">=</span> <span class="n">urllib</span><span class="p">.</span><span class="n">request</span><span class="p">.</span><span class="n">urlopen</span><span class="p">(</span><span class="n">link</span><span class="p">)</span>
+
+        <span class="n">soup</span> <span class="o">=</span> <span class="n">BeautifulSoup</span><span class="p">(</span><span class="n">f</span><span class="p">,</span> <span class="s">'lxml'</span><span class="p">)</span>
+
+        <span class="n">tries</span> <span class="o">+=</span> <span class="mi">1</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">print</span><span class="p">(</span><span class="s">'could</span><span class="se">\'</span><span class="s">t load matches, giving up</span><span class="se">\n</span><span class="s">'</span><span class="p">)</span>
+        <span class="nb">exit</span><span class="p">()</span>
+</code></pre></div></div>
+
+<p>Finally, the real work of grabbing the score data for each match. See below the Python code for a sample of the HTML that we’ll be navigating for each individual match.</p>
+
+<p>In the current version of ESPN’s scoreboard, each match is contained in a <code class="highlighter-rouge">div</code> with class <code class="highlighter-rouge">boxscore-wrapper</code> that itself contains two table rows with class <code class="highlighter-rouge">linescore</code>, where the winner’s row also has class <code class="highlighter-rouge">winner</code>. While the mobile version of the site always lists the winner first (in the format ‘Winner d. Loser &lt;score&gt;), the full version may show either the winner or loser first, so we have to determine which in order to assign the names and scorelines to the appropriate columns in the dataframe.</p>
+
+<p>Seeds are listed in the same table element as player names, but are captured in their own <code class="highlighter-rouge">span</code> tags, which makes them easy to extract; then, we can use a regular expression to grab the name itself.</p>
+
+<p>The set scores for each player follow the player name as sibling <code class="highlighter-rouge">td</code> elements—not as intuitive to scrape as the typical inline format (e.g. “6-4, 6-3”) but it’s easy enough to grab the scores for each player with BeautifulSoup’s <code class="highlighter-rouge">next_siblings</code> method and put them back together into a single string. Tiebreak scores are listed as superscripts, but can also just be picked up by looking for set scores that are more than one character long. Since only the loser’s score is typically listed for a tiebreak, we can convert to integers and pick the <code class="highlighter-rouge">min</code> value to figure out which one to display.</p>
+
+<p>It’s worth noting that, depending on our data processing needs, ESPN’s boxscore-style format might actually be better. If we wanted to tally games won, for example, the inline scores that this script pieces together would have to be exploded out again. But in addition to making the information human-readable and reducing the number of fields in our table, this format makes for a better exercise in manipulating HTML that looks good on the page but requires some extra code to make sense of programmatically.</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">matches</span> <span class="o">=</span> <span class="n">soup</span><span class="p">.</span><span class="n">find_all</span><span class="p">(</span><span class="s">'div'</span><span class="p">,</span> <span class="n">class_</span><span class="o">=</span><span class="s">"boxscore-wrapper"</span><span class="p">)</span>
+
+<span class="k">for</span> <span class="n">m</span> <span class="ow">in</span> <span class="n">matches</span><span class="p">:</span>
+    <span class="n">linescores</span> <span class="o">=</span> <span class="n">m</span><span class="p">.</span><span class="n">find_all</span><span class="p">(</span><span class="s">'tr'</span><span class="p">,</span> <span class="n">class_</span><span class="o">=</span><span class="s">'linescore'</span><span class="p">)</span>
+    <span class="k">if</span> <span class="s">'winner'</span> <span class="ow">in</span> <span class="n">linescores</span><span class="p">[</span><span class="mi">0</span><span class="p">].</span><span class="n">get_attribute_list</span><span class="p">(</span><span class="s">'class'</span><span class="p">):</span>
+        <span class="n">winner</span><span class="p">,</span> <span class="n">loser</span> <span class="o">=</span> <span class="n">linescores</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">loser</span><span class="p">,</span> <span class="n">winner</span> <span class="o">=</span> <span class="n">linescores</span>
+
+    <span class="n">winner_and_seed</span> <span class="o">=</span> <span class="n">winner</span><span class="p">.</span><span class="n">find</span><span class="p">(</span><span class="s">'td'</span><span class="p">,</span> <span class="n">class_</span><span class="o">=</span><span class="s">'player-cell'</span><span class="p">)</span>
+    <span class="n">winner_name</span> <span class="o">=</span> <span class="n">re</span><span class="p">.</span><span class="n">sub</span><span class="p">(</span><span class="s">"\([0-9]+\) "</span><span class="p">,</span> <span class="s">""</span><span class="p">,</span> <span class="n">winner_and_seed</span><span class="p">.</span><span class="n">text</span><span class="p">)</span>
+    <span class="n">winner_seed</span> <span class="o">=</span> <span class="n">winner</span><span class="p">.</span><span class="n">find</span><span class="p">(</span><span class="s">'span'</span><span class="p">,</span> <span class="n">class_</span><span class="o">=</span><span class="s">'seed'</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">winner_seed</span> <span class="o">!=</span> <span class="bp">None</span><span class="p">:</span>
+        <span class="n">winner_seed</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">winner_seed</span><span class="p">.</span><span class="n">text</span><span class="p">.</span><span class="n">strip</span><span class="p">(</span><span class="s">'( )'</span><span class="p">))</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">winner_seed</span> <span class="o">=</span> <span class="s">"None"</span>
+
+
+    <span class="n">loser_and_seed</span> <span class="o">=</span> <span class="n">loser</span><span class="p">.</span><span class="n">find</span><span class="p">(</span><span class="s">'td'</span><span class="p">,</span> <span class="n">class_</span><span class="o">=</span><span class="s">'player-cell'</span><span class="p">)</span>
+    <span class="n">loser_name</span> <span class="o">=</span> <span class="n">re</span><span class="p">.</span><span class="n">sub</span><span class="p">(</span><span class="s">"\([0-9]+\) "</span><span class="p">,</span> <span class="s">""</span><span class="p">,</span> <span class="n">loser_and_seed</span><span class="p">.</span><span class="n">text</span><span class="p">)</span>
+    <span class="n">loser_seed</span> <span class="o">=</span> <span class="n">loser</span><span class="p">.</span><span class="n">find</span><span class="p">(</span><span class="s">'span'</span><span class="p">,</span> <span class="n">class_</span><span class="o">=</span><span class="s">'seed'</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">loser_seed</span> <span class="o">!=</span> <span class="bp">None</span><span class="p">:</span>
+        <span class="n">loser_seed</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">loser_seed</span><span class="p">.</span><span class="n">text</span><span class="p">.</span><span class="n">strip</span><span class="p">(</span><span class="s">'( )'</span><span class="p">))</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">loser_seed</span> <span class="o">=</span> <span class="s">"None"</span>
+
+    <span class="n">num_sets</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">m</span><span class="p">.</span><span class="n">find_all</span><span class="p">(</span><span class="s">'td'</span><span class="p">,</span> <span class="n">class_</span><span class="o">=</span><span class="s">"set"</span><span class="p">))</span>
+    <span class="n">sets</span> <span class="o">=</span> <span class="nb">zip</span><span class="p">(</span><span class="n">winner_and_seed</span><span class="p">.</span><span class="n">next_siblings</span><span class="p">,</span> <span class="n">loser_and_seed</span><span class="p">.</span><span class="n">next_siblings</span><span class="p">)</span>
+    <span class="n">match_score</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">s</span> <span class="ow">in</span> <span class="n">sets</span><span class="p">:</span>
+        <span class="n">set_score</span> <span class="o">=</span> <span class="n">s</span><span class="p">[</span><span class="mi">0</span><span class="p">].</span><span class="n">text</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">+</span> <span class="s">'-'</span> <span class="o">+</span> <span class="n">s</span><span class="p">[</span><span class="mi">1</span><span class="p">].</span><span class="n">text</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">s</span><span class="p">[</span><span class="mi">0</span><span class="p">].</span><span class="n">text</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">:</span>
+            <span class="n">tb_score</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="nb">min</span><span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="n">s</span><span class="p">[</span><span class="mi">0</span><span class="p">].</span><span class="n">text</span><span class="p">[</span><span class="mi">1</span><span class="p">:]),</span> <span class="nb">int</span><span class="p">(</span><span class="n">s</span><span class="p">[</span><span class="mi">1</span><span class="p">].</span><span class="n">text</span><span class="p">[</span><span class="mi">1</span><span class="p">:])))</span>
+            <span class="n">set_score</span> <span class="o">+=</span> <span class="s">'('</span> <span class="o">+</span> <span class="n">tb_score</span> <span class="o">+</span> <span class="s">')'</span>
+        <span class="n">match_score</span><span class="p">.</span><span class="n">append</span><span class="p">(</span><span class="n">set_score</span><span class="p">)</span>
+    <span class="n">match_score</span> <span class="o">=</span> <span class="s">' '</span><span class="p">.</span><span class="n">join</span><span class="p">(</span><span class="n">match_score</span><span class="p">)</span>
+
+    <span class="n">df</span> <span class="o">=</span> <span class="n">df</span><span class="p">.</span><span class="n">append</span><span class="p">({</span><span class="s">'date'</span><span class="p">:</span> <span class="n">yest_string</span><span class="p">,</span>
+                    <span class="s">'winner'</span><span class="p">:</span> <span class="n">winner_name</span><span class="p">,</span>
+                    <span class="s">'w_seed'</span><span class="p">:</span> <span class="n">winner_seed</span><span class="p">,</span>
+                    <span class="s">'loser'</span><span class="p">:</span> <span class="n">loser_name</span><span class="p">,</span>
+                    <span class="s">'l_seed'</span><span class="p">:</span><span class="n">loser_seed</span><span class="p">,</span>
+                    <span class="s">'score'</span><span class="p">:</span> <span class="n">match_score</span><span class="p">},</span>
+                   <span class="n">ignore_index</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+
+<span class="n">df</span><span class="p">.</span><span class="n">to_excel</span><span class="p">(</span><span class="n">data_file</span><span class="p">)</span>
+</code></pre></div></div>
+
+<p>Here’s a sample of the HTML for a single match:</p>
+
+<div class="language-html highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nt">&lt;div</span> <span class="na">class=</span><span class="s">"boxscore-wrapper"</span><span class="nt">&gt;</span>
+    <span class="nt">&lt;table</span> <span class="na">class=</span><span class="s">"boxscore"</span><span class="nt">&gt;</span>
+        <span class="nt">&lt;tr</span> <span class="na">class=</span><span class="s">"boxscore-header"</span><span class="nt">&gt;</span>
+            <span class="nt">&lt;td&gt;</span>
+             FINAL
+            <span class="nt">&lt;/td&gt;</span>
+            <span class="nt">&lt;td</span> <span class="na">align=</span><span class="s">"center"</span> <span class="na">class=</span><span class="s">"set"</span><span class="nt">&gt;</span>
+             1
+            <span class="nt">&lt;/td&gt;</span>
+            <span class="nt">&lt;td</span> <span class="na">align=</span><span class="s">"center"</span> <span class="na">class=</span><span class="s">"set"</span><span class="nt">&gt;</span>
+             2
+            <span class="nt">&lt;/td&gt;</span>
+        <span class="nt">&lt;/tr&gt;</span>
+        <span class="nt">&lt;tr</span> <span class="na">class=</span><span class="s">"linescore winner"</span><span class="nt">&gt;</span>
+            <span class="nt">&lt;td</span> <span class="na">class=</span><span class="s">"player-cell"</span><span class="nt">&gt;</span>
+                <span class="nt">&lt;a</span> <span class="na">href=</span><span class="s">"/general/tennis/playercard?playerId=2860"</span><span class="nt">&gt;</span>
+                    <span class="nt">&lt;img</span> <span class="na">class=</span><span class="s">"flag"</span> <span class="na">onerror=</span><span class="s">"this.style.display='none'"</span> <span class="na">src=</span><span class="s">"http://a.espncdn.com/i/flags/56x34/can.gif"</span><span class="nt">/&gt;</span>
+                    <span class="nt">&lt;span</span> <span class="na">class=</span><span class="s">"seed"</span><span class="nt">&gt;</span>
+                     (3)
+                    <span class="nt">&lt;/span&gt;</span>
+                 Denis Shapovalov
+                <span class="nt">&lt;/a&gt;</span>
+            <span class="nt">&lt;/td&gt;</span>
+            <span class="nt">&lt;td</span> <span class="na">align=</span><span class="s">"center"</span><span class="nt">&gt;</span>
+             6
+            <span class="nt">&lt;/td&gt;</span>
+            <span class="nt">&lt;td</span> <span class="na">align=</span><span class="s">"center"</span><span class="nt">&gt;</span>
+             6
+            <span class="nt">&lt;/td&gt;</span>
+        <span class="nt">&lt;/tr&gt;</span>
+        <span class="nt">&lt;tr</span> <span class="na">class=</span><span class="s">"linescore"</span><span class="nt">&gt;</span>
+            <span class="nt">&lt;td</span> <span class="na">class=</span><span class="s">"player-cell"</span><span class="nt">&gt;</span>
+                <span class="nt">&lt;a</span> <span class="na">href=</span><span class="s">"/general/tennis/playercard?playerId=2726"</span><span class="nt">&gt;</span>
+                    <span class="nt">&lt;img</span> <span class="na">class=</span><span class="s">"flag"</span> <span class="na">onerror=</span><span class="s">"this.style.display='none'"</span> <span class="na">src=</span><span class="s">"http://a.espncdn.com/i/flags/56x34/pol.gif"</span><span class="nt">/&gt;</span>
+                    <span class="nt">&lt;span</span> <span class="na">class=</span><span class="s">"seed"</span><span class="nt">&gt;</span>
+                     (13)
+                    <span class="nt">&lt;/span&gt;</span>
+                 Hubert Hurkacz
+                <span class="nt">&lt;/a&gt;</span>
+            <span class="nt">&lt;/td&gt;</span>
+            <span class="nt">&lt;td</span> <span class="na">align=</span><span class="s">"center"</span><span class="nt">&gt;</span>
+             4
+            <span class="nt">&lt;/td&gt;</span>
+            <span class="nt">&lt;td</span> <span class="na">align=</span><span class="s">"center"</span><span class="nt">&gt;</span>
+             3
+            <span class="nt">&lt;/td&gt;</span>
+        <span class="nt">&lt;/tr&gt;</span>
+        <span class="nt">&lt;tr</span> <span class="na">class=</span><span class="s">"boxscore-footer"</span><span class="nt">&gt;</span>
+            <span class="nt">&lt;td</span> <span class="na">colspan=</span><span class="s">"3"</span><span class="nt">&gt;</span>
+             Mens Singles - 3rd Round - Centre Court
+            <span class="nt">&lt;/td&gt;</span>
+        <span class="nt">&lt;/tr&gt;</span>
+        <span class="nt">&lt;tr</span> <span class="na">class=</span><span class="s">"boxscore-link"</span><span class="nt">&gt;</span>
+            <span class="nt">&lt;td</span> <span class="na">colspan=</span><span class="s">"3"</span><span class="nt">&gt;</span>
+                <span class="nt">&lt;a</span> <span class="na">href=</span><span class="s">"courtcast?matchId=106989"</span><span class="nt">&gt;</span>
+                  Courtcast
+                <span class="nt">&lt;/a&gt;</span>
+            <span class="nt">&lt;/td&gt;</span>
+        <span class="nt">&lt;/tr&gt;</span>
+    <span class="nt">&lt;/table&gt;</span>
+<span class="nt">&lt;/div&gt;</span>
+</code></pre></div></div>
+
+<h3 id="automating-scraping-with-airflow">Automating Scraping with Airflow</h3>
+
+<p>It’s very much overkill to use Airflow to automate a single script like this one—a quick <code class="highlighter-rouge">echo "0 0 * * * python scraper.py" | chrontab</code> would do the trick. But my goal was to learn a new data pipeline tool, so here we are. Airflow is not particularly difficult to set up, though most of the inital work happens at the command line: installing, creating an admin account, running the webserver and scheduler, etc. Airflow’s whole purpose is to run DAGs, or sets of tasks with acyclic dependencies; for the moment, I only have one task so I don’t need to worry about dependencies, but from here it would be easy to add more tasks for data processing, warehousing, etc.</p>
+
+<p>Though my task is really a python script, it’s easiest to run it as a bash operator, since Airflow’s Python operator just runs a single function that has to be defined in the same file or stored in the same directory as the DAG. The interval is set with chron-style notation, in this case running at 4am UTC, which is midnight EDT at the time of writing. This wouldn’t be enough of a cushion in some cases, since night matches at North American tournaments can easily run past midnight, but it’ll work for now.</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">datetime</span> <span class="k">as</span> <span class="n">dt</span>
+<span class="kn">from</span> <span class="nn">airflow</span> <span class="kn">import</span> <span class="n">DAG</span>
+<span class="kn">from</span> <span class="nn">airflow.operators.bash</span> <span class="kn">import</span> <span class="n">BashOperator</span>
+
+<span class="n">default_args</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s">'owner'</span><span class="p">:</span> <span class="s">'brian miller'</span><span class="p">,</span>
+    <span class="s">'start_date'</span><span class="p">:</span> <span class="n">dt</span><span class="p">.</span><span class="n">datetime</span><span class="p">(</span><span class="mi">2021</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">19</span><span class="p">),</span>
+    <span class="s">'retries'</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span>
+    <span class="s">'retry_delay'</span><span class="p">:</span> <span class="n">dt</span><span class="p">.</span><span class="n">timedelta</span><span class="p">(</span><span class="n">minutes</span><span class="o">=</span><span class="mi">5</span><span class="p">),</span>
+<span class="p">}</span>
+
+<span class="k">with</span> <span class="n">DAG</span><span class="p">(</span><span class="s">'scraping_test_dag'</span><span class="p">,</span>
+         <span class="n">default_args</span><span class="o">=</span><span class="n">default_args</span><span class="p">,</span>
+         <span class="n">schedule_interval</span><span class="o">=</span><span class="s">'0 4 * * *'</span><span class="p">,</span>
+    <span class="p">)</span> <span class="k">as</span> <span class="n">dag</span><span class="p">:</span>
+
+    <span class="n">scrape_operator</span> <span class="o">=</span> <span class="n">BashOperator</span><span class="p">(</span><span class="n">task_id</span><span class="o">=</span><span class="s">'ESPN_scrape'</span><span class="p">,</span>
+                                   <span class="n">bash_command</span><span class="o">=</span><span class="s">'python /Users/brian_miller/Data_Science/tennis_pipeline/scrape_test.py'</span><span class="p">)</span>
+
+</code></pre></div></div>
+
+<p>In the future, I’m planning to add some addtional steps to this pipeline, including feeding matches into the predictive model from last time, comparing with the actual results, and producing reports and visualizations. Stay tuned!</p>
+:ET
