@@ -6,7 +6,7 @@ date: 2021-01-30
 
 _[a jupyter notebook for this post is available on [github](https://github.com/bmill42/Tennis-Analytics)]_
 
-I'm not much of a gambler, so I was fortunate on my first trip to Las Vegas last year to be traveling with a friend who really know the ropes. I came away from the experience, as you might expect, with less money in my bank account, but the losses were  surprisingly minimal thanks to my favorite of the various degenerate pastimes to which I was introduced: betting on tennis matches.
+I'm not much of a gambler, so I was fortunate on my first trip to Las Vegas last year to be traveling with a friend who really knows the ropes. And my losses for the weekend were surprisingly minimal thanks to my favorite of the various pastimes to which I was introduced: betting on tennis matches.
 
 We were in Vegas during the clay-court leadup to the French Open, betting mainly on early-round matches in Rome; my proudest moment was picking then-seventeen-year-old Jannik Sinner's upset over Steve Johnson, but we also did well overall, both when it came to picking individual matches and in "system" betting, where out of a group of bets a certain number have to win to pay out. I don't know the exact numbers, but we came out on top in the end.
 
