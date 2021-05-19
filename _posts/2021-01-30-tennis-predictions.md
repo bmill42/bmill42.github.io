@@ -638,7 +638,7 @@ plt.show()
 ![png](/posts/tennis/output_32_0.png)
 
 
-Here, I've plotted the winner's first serve won percentage by surface in two time spans from the opposite ends of the dataset, which could give us a sense of whether serving performance changed over time (I've excluded matches played on indoor carpet, which only turn up in the earlier window and make up a tiny fraction of the total matches, making it harder to compare the two plots). In general, serve strength (or strength on serve, which is not necessarily the same thing) seems to have improved slightly on all surfaces.
+Here, I've plotted the winner's first serve won percentage by surface in two time spans from the opposite ends of the dataset, which could give us a sense of whether serving performance changed over time (I've excluded matches played on indoor carpet, which only turn up in the earlier window and make up a tiny fraction of the total matches, making it harder to compare the two plots). In general, it looks to me like serve strength (or strength on serve, which is not necessarily the same thing) may have improved slightly on all surfaces, though it's a small difference that may not stand up to statistical scrutiny.
 
 We can juxtapose these two kinds of visualization to compare both players' strength on first serve on different surfaces, as in the plot below. This time, I've included carpet and used the whole dataset, and the results are not surprising: serve strength for both winner and loser improves as you move from slower to faster surfaces, with grass and carpet being about the same.
 
