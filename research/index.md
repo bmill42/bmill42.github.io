@@ -5,6 +5,8 @@ title: Research
 
 ### Publications
 
+“Leonard Meyer’s Theory of Musical Style, from Pragmatism to Information Theory.” _Resonance: The Journal of Sound and Culture_ 2.4 (forthcoming 2021).
+
 [“‘All of the rules of jazz’: Stylistic Models and Algorithmic Creativity in Human-Computer Improvisation.”](https://mtosmt.org/issues/mto.20.26.3/mto.20.26.3.miller.html) _Music Theory Online_ 26.3 (September 2020).
 
 “Rethinking Replication in Leonard Meyer’s Theory of Musical Style.” In _The Oxford Handbook of Music and Corpus Studies_. Edited by Daniel Shanahan, Ashley Burgoyne, and Ian Quinn. New York, NY: Oxford University Press, forthcoming.
