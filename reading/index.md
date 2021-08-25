@@ -4,6 +4,7 @@ title: Reading
 ---
 
 ### What I've Been Reading
+    This page is not kept very well up to date, but I'll try to maintain it now and then.
 
 #### Week of 3/15
 - Nick Seaver, “Everything Lies in a Space: Cultural Data and Spatial Reality,” _Journal of the Royal Anthropological Institute_, [https://doi.org/10.1111/1467-9655.13479](https://doi.org/10.1111/1467-9655.13479).
