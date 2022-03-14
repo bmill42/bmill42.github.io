@@ -5,7 +5,7 @@ title: Research
 
 ### Publications
 
-[“Leonard Meyer’s Theory of Musical Style, from Pragmatism to Information Theory.”](/files/Miller_Resonance_2022.pdf) _Resonance: The Journal of Sound and Culture_ 2.4 (2022).
+[“Leonard Meyer’s Theory of Musical Style, from Pragmatism to Information Theory.”](/files/Miller_Resonance_2022.pdf) _Resonance: The Journal of Sound and Culture_ 2.4 (2021).
 
 “Language, Gesture, Style: Adorno’s Theory of Musical Reproduction between Musicology and Art History.” In [_Dialektik der Schrift: Zu Adornos Theorie der musikalischen Reproduktion_](https://www.fink.de/view/title/55689 ), Julia Freund, Matteo Nanni, Jakob M. Schermann, and Nikolaus Urbanek, eds. Wilhelm Fink-Verlag, Paderborn, 2022 (in press).
 
