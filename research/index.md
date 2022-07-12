@@ -7,7 +7,7 @@ You can download most of my publications at the links below. Feel free to write 
 
 ### Publications
 
-“Language, Gesture, Style: Adorno’s Theory of Musical Reproduction between Musicology and Art History.” In [_Dialektik der Schrift: Zu Adornos Theorie der musikalischen Reproduktion_](https://doi.org/10.30965/9783846766804), Julia Freund, Matteo Nanni, Jakob M. Schermann, and Nikolaus Urbanek, eds. Wilhelm Fink-Verlag, Paderborn, 2022 (open access).
+“Language, Gesture, Style: Adorno’s Theory of Musical Reproduction between Musicology and Art History.” In [_Dialektik der Schrift: Zu Adornos Theorie der musikalischen Reproduktion_](https://doi.org/10.30965/9783846766804), Julia Freund, Matteo Nanni, Jakob M. Schermann, and Nikolaus Urbanek, eds. Wilhelm Fink-Verlag, 2022 (open access).
 
 “Digital Scores, Algorithmic Agents, Encoded Ontologies: On the objects of musical computation.” In [_Material Cultures of Music Notation: New Perspectives on Musical Inscription_](https://www.routledge.com/Material-Cultures-of-Music-Notation-New-Perspectives-on-Musical-Inscription/Schuiling-Payne/p/book/9780367359522). Floris Schuiling and Emily Payne, eds. Routledge, 2022.
 
@@ -15,7 +15,7 @@ You can download most of my publications at the links below. Feel free to write 
 
 [“‘All of the rules of jazz’: Stylistic Models and Algorithmic Creativity in Human-Computer Improvisation.”](https://mtosmt.org/issues/mto.20.26.3/mto.20.26.3.miller.html) _Music Theory Online_ 26.3 (September 2020).
 
-“Rethinking Replication in Leonard Meyer’s Theory of Musical Style.” In _The Oxford Handbook of Music and Corpus Studies_. Edited by Daniel Shanahan, Ashley Burgoyne, and Ian Quinn. New York, NY: Oxford University Press, forthcoming.
+“Rethinking Replication in Leonard Meyer’s Theory of Musical Style.” In _The Oxford Handbook of Music and Corpus Studies_. Edited by Daniel Shanahan, Ashley Burgoyne, and Ian Quinn. Oxford University Press, forthcoming.
 
 ### Dissertation
 
