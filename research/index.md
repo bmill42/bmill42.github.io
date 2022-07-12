@@ -5,9 +5,9 @@ title: Research
 
 ### Publications
 
-“Language, Gesture, Style: Adorno’s Theory of Musical Reproduction between Musicology and Art History.” In [_Dialektik der Schrift: Zu Adornos Theorie der musikalischen Reproduktion_](https://www.fink.de/view/title/55689 ), Julia Freund, Matteo Nanni, Jakob M. Schermann, and Nikolaus Urbanek, eds. Wilhelm Fink-Verlag, Paderborn, 2022 (in press).
+“Language, Gesture, Style: Adorno’s Theory of Musical Reproduction between Musicology and Art History.” In [_Dialektik der Schrift: Zu Adornos Theorie der musikalischen Reproduktion_](https://doi.org/10.30965/9783846766804), Julia Freund, Matteo Nanni, Jakob M. Schermann, and Nikolaus Urbanek, eds. Wilhelm Fink-Verlag, Paderborn, 2022 (open access).
 
-“Digital Scores, Algorithmic Agents, Encoded Ontologies: On the objects of musical computation.” In [_Material Cultures of Music Notation: New Perspectives on Musical Inscription_](https://www.routledge.com/Material-Cultures-of-Music-Notation-New-Perspectives-on-Musical-Inscription/Schuiling-Payne/p/book/9780367359522). Floris Schuiling and Emily Payne, eds. Routledge, 2022 (in press).
+“Digital Scores, Algorithmic Agents, Encoded Ontologies: On the objects of musical computation.” In [_Material Cultures of Music Notation: New Perspectives on Musical Inscription_](https://www.routledge.com/Material-Cultures-of-Music-Notation-New-Perspectives-on-Musical-Inscription/Schuiling-Payne/p/book/9780367359522). Floris Schuiling and Emily Payne, eds. Routledge, 2022.
 
 [“Leonard Meyer’s Theory of Musical Style, from Pragmatism to Information Theory.”](/files/Miller_Resonance_2022.pdf) _Resonance: The Journal of Sound and Culture_ 2.4 (2021).
 
