@@ -3,6 +3,8 @@ layout: default
 title: Research
 ---
 
+You can download most of my publications at the links below. Feel free to write me if you'd like access to anything that isn't readily available, or if you just have thoughts or questions.
+
 ### Publications
 
 “Language, Gesture, Style: Adorno’s Theory of Musical Reproduction between Musicology and Art History.” In [_Dialektik der Schrift: Zu Adornos Theorie der musikalischen Reproduktion_](https://doi.org/10.30965/9783846766804), Julia Freund, Matteo Nanni, Jakob M. Schermann, and Nikolaus Urbanek, eds. Wilhelm Fink-Verlag, Paderborn, 2022 (open access).
