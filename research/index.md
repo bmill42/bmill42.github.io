@@ -23,6 +23,8 @@ You can find most of my publications at the links below. Feel free to write me i
 
 ### Selected Presentations
 
+"Provocations from music on human-AI interaction." Machine as Medium Symposium: Matter and Spirit, Yale Center for Collaborate Arts and Media. New Haven, CT, 2023.
+
 “Leonard Meyer’s Theory of Musical Style, from Pragmatism to Information Theory.” Special session on Music and Cybernetics, American Musicological Society Annual Meeting. Online due to COVID-19, 2021.
 
 “Open Source Creativity: Google as Computer Music Institution.” Society for American Music Annual Conference. Tacoma, WA, online due to COVID-19, 2021.
