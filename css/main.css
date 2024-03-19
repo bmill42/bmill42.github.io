@@ -9,7 +9,7 @@ a { text-decoration: underline; color: #929292; font-weight: lighter; text-decor
 a:hover { color: #0066cc; }
 
 p, ul {font-family: 'Rubik', 'Verdana', 'Arial', 'Sans-Serif'; }
-p, ul { font-size: 1em; line-height: 1.4em; color: #333; font-weight: lighter;}
+p, ul { font-size: 1.5em; line-height: 1.4em; color: #333; font-weight: lighter;}
 li.emph {font-size: 1.5em; font-weight: 500;}
 @media screen and (max-width:1000px) {
   /* CSS for screens that are 1000 pixels or more will be put in this section */
