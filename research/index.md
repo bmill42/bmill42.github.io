@@ -3,7 +3,7 @@ layout: default
 title: Research
 ---
 
-You can download most of my publications at the links below. Feel free to write me if you'd like access to anything that isn't readily available, or if you just have thoughts or questions.
+You can find most of my publications at the links below. Feel free to write me if you'd like access to anything that isn't readily available, or if you just have thoughts or questions.
 
 ### Publications
 
