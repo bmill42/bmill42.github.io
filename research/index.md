@@ -7,7 +7,7 @@ You can find most of my publications at the links below. Feel free to write me i
 
 ### Publications
 
-“Rethinking Replication in Leonard Meyer’s Theory of Musical Style.” In _The Oxford Handbook of Music and Corpus Studies_. Edited by Daniel Shanahan, Ashley Burgoyne, and Ian Quinn. Oxford University Press, forthcoming.
+[“Rethinking Replication in Leonard Meyer’s Theory of Musical Style.”](https://doi.org/10.1093/oxfordhb/9780190945442.013.3) In _The Oxford Handbook of Music and Corpus Studies_. Edited by Daniel Shanahan, Ashley Burgoyne, and Ian Quinn. Oxford University Press, 2025 (online).
 
 “Language, Gesture, Style: Adorno’s Theory of Musical Reproduction between Musicology and Art History.” In [_Dialektik der Schrift: Zu Adornos Theorie der musikalischen Reproduktion_](https://doi.org/10.30965/9783846766804), Julia Freund, Matteo Nanni, Jakob M. Schermann, and Nikolaus Urbanek, eds. Wilhelm Fink-Verlag, 2022 (open access).
 
