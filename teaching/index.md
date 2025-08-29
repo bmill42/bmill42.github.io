@@ -9,7 +9,7 @@ At Michigan, I teach classes on [_Computing's Impact on Justice_](https://guzdia
 
 The programming component of both classes is taught in [Snap!](https://snap.berkeley.edu/), a graphical programming language developed by Jens Mönig and hosted by U.C. Berkeley. Snap! is descended from Scratch but is considerably more powerful - you can find sample code from my classes at [my public Snap! page](https://snap.berkeley.edu/user?username=bmllr).
 
-In Fall 2024, I'll be teaching a class called _Synthesis to Streaming: Music in Digital Culture_. We'll program instruments in Max/MSP, consider the impact of streaming on listening practices and political economy, and think about the implications of machine learning and AI for generating and understanding music.
+In addition to introductory programming courses focused on creative coding and critical computing, I also teach a class called _Synthesis to Streaming: Music in Digital Culture_. In the class, we program instruments in Max/MSP, consider the impact of streaming on listening practices and political economy while exploring our own streaming data via Python, and think about the implications of machine learning and AI for generating and understanding music.
 
 PCAS offers minors in Computing for Expression and Computing for Scientific Discovery. Interested students should check out our [advising page](https://lsa.umich.edu/computingfor/undergraduates/advising.html).
 
