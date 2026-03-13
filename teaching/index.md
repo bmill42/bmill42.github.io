@@ -7,7 +7,7 @@ title: Teaching
 
 At Michigan, I teach classes on [_Computing's Impact on Justice_](https://guzdial.engin.umich.edu/compfor-111-computings-impact-on-justice-from-text-to-the-web/) and [_Computing for Creative Expression_](https://guzdial.engin.umich.edu/compfor-121-computing-for-creative-expression/). See the links for information on earlier versions of the classes as designed and taught by Mark Guzdial.
 
-The programming component of both classes is taught in [Snap!](https://snap.berkeley.edu/), a graphical programming language developed by Jens Mönig and hosted by U.C. Berkeley. Snap! is descended from Scratch but is considerably more powerful - you can find sample code from my classes at [my public Snap! page](https://snap.berkeley.edu/user?username=bmllr).
+The programming component of both classes is taught in [Snap!](https://snap.berkeley.edu/), a graphical programming language hosted by U.C. Berkeley. Snap! is descended from Scratch but is considerably more powerful - you can find sample code from my classes at [my public Snap! page](https://snap.berkeley.edu/user?username=bmllr).
 
 In addition to introductory programming courses focused on creative coding and critical computing, I also teach a class called _Synthesis to Streaming: Music in Digital Culture_. In the class, we program instruments in Max/MSP, consider the impact of streaming on listening practices and political economy while exploring our own streaming data via Python, and think about the implications of machine learning and AI for generating and understanding music.
 
