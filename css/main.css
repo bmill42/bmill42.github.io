@@ -1,19 +1,24 @@
-body { margin: 60px 200px; max-width: 800px; min-width: 200px}
+html { overflow-y: scroll; scrollbar-gutter: stable; }
+
+body { margin: 60px auto; max-width: 740px; min-width: 200px; padding: 0 24px; }
 
 @media screen and (max-width:1000px) {
   /* CSS for screens that are 1000 pixels or less will be put in this section */
-  body { margin: 20px 20px 60px 20px; }
+  body { margin: 20px auto 60px; }
 }
 
-a { text-decoration: underline; color: #929292; font-weight: lighter; text-decoration-style: dotted; text-decoration-color: #0066cc}
-a:hover { color: #0066cc; }
+a { text-decoration: underline; color: #0066cc; font-weight: 400; text-decoration-style: dotted; text-decoration-color: #0066cc}
+a:hover, a:focus { color: #004a94; }
+
+em, i, cite { font-style: italic; font-weight: 400; }
 
 p, ul {font-family: 'Rubik', 'Verdana', 'Arial', 'Sans-Serif'; }
-p, ul { font-size: 1.2em; line-height: 1.4em; color: #333; font-weight: lighter;}
+p, ul { font-size: 1.2em; line-height: 1.6; color: #333; font-weight: 400;}
 li.emph {font-size: 1.5em; font-weight: 500;}
 @media screen and (max-width:1000px) {
   /* CSS for screens that are 1000 pixels or more will be put in this section */
   .emph { margin-bottom: 20px; }
+  p, ul { font-size: 1.1em; }
 }
 
 img {
@@ -59,30 +64,35 @@ thead, th, td, tr {
 }
 
 
-h1, h2, h3, h4 { font-family: 'Rubik','Verdana', 'Arial', 'Sans-Serif'; font-weight: 400; }
-h1 { font-size: 2em;  }
-h2 { font-size: 1.5em; }
-h3 { font-size: 1.3em; }
-h4 { font-size: 1em; }
+h1, h2, h3, h4 { font-family: 'Rubik','Verdana', 'Arial', 'Sans-Serif'; font-weight: 500; line-height: 1.25; margin: 1.6em 0 0.4em; }
+h1 { font-size: 2em; }
+h2 { font-size: 1.6em; }
+h3 { font-size: 1.35em; }
+h4 { font-size: 1.15em; }
 
-nav ul, footer ul { font-size: 1em; font-family: 'Rubik', 'Verdana', 'Arial', 'Sans-Serif'; padding: 0px; list-style: none; }
+nav ul, footer ul { font-size: 1em; font-family: 'Rubik', 'Verdana', 'Arial', 'Sans-Serif'; padding: 0px; margin: 0px; list-style: none; }
 nav ul li, footer ul li { margin-right: 20px; list-style: none;}
 @media screen and (min-width:1000px) {
   /* CSS for screens that are 1000 pixels or more will be put in this section */
   nav ul li, footer ul li { display: inline; }
 }
 @media screen and (max-width:1000px) {
-  /* CSS for screens that are 1000 pixels or more will be put in this section */
-  nav ul li { display: normal; margin-bottom: 0px; font-size: 1em}
+  nav { border-bottom: 1px solid #e5e5e5; padding-bottom: 16px; }
+  nav .links { display: flex; flex-wrap: wrap; align-items: baseline; column-gap: 22px; row-gap: 6px; }
+  nav .links .emph { flex-basis: 100%; margin: 0 0 14px; }
+  nav .links li { margin: 0; font-size: 1.05em; }
+  nav .links li a { display: inline-block; padding: 3px 0; }
+  nav + .container { margin-top: 22px; }
 }
-/*@media  screen and (max-width: 1000px) {
-  .links {
-    display: flex;
-    flex-direction: column-reverse;
-  }
-}*/
 
-footer { border-top: 1px solid #d5d5d5; font-size: .8em; }
+footer { border-top: 1px solid #d5d5d5; font-size: .8em; padding-top: 14px; }
+
+@media screen and (max-width:1000px) {
+  footer { font-size: .95em; padding-top: 18px; }
+  footer .links { display: flex; flex-wrap: wrap; column-gap: 22px; row-gap: 4px; }
+  footer .links li { margin: 0; }
+  footer .links li a { display: inline-block; padding: 5px 0; }
+}
 
 /* Blog */
 ul.posts { margin: 20px auto 40px; font-size: 1em; }
@@ -93,8 +103,8 @@ ul.posts li { list-style: none; }
 .cv address, .cv .download { font-family: 'Helvetica', 'Arial', 'Sans-Serif'; }
 .cv .download { float: right; font-size: .8em; text-transform: uppercase; }
 
-@media screen and (min-width:1000px) {
-  /* CSS for screens that are 1000 pixels or more will be put in this section */
-  .container { margin: 50px 50px 50px 50px }
-}
-.links a { text-decoration: none; font-weight: normal}
+.container { margin: 32px 0; }
+.links a { text-decoration: none; font-weight: normal; color: #595959; }
+.links a:hover, .links a:focus { color: #0066cc; }
+
+.container > :first-child, .blurb > :first-child { margin-top: 0; }
